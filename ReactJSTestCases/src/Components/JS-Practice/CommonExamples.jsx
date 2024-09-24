@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import './Common.css'
-import { converToJSON, getCharSortArray, getIntSortArray, getPromises, getRandomInt, getRXJSObservable, getSubjectObs, getUniqeArray, setSubjectObs } from "./CommonExamplesService";
+import { converToJSON, fetchUserDetailServiceObservable, fetchUserDetailServicePromese, getCharSortArray, getIntSortArray, getPromises, getRandomInt, getRXJSObservable, getSubjectObs, getUniqeArray, setSubjectObs } from "./CommonExamplesService";
 //Observable 
 //promise,
 // filer ,map ,foreach, spreade paramerter
@@ -13,6 +13,7 @@ const CommonExamples=()=>{
     const[observ, setObserv] = useState('')
     const[subobserv, setsubObserv] = useState('')
     const[promis, setPromis] = useState('')
+    const[apiData, setApiData] = useState('')
     useEffect(()=>{
         const newArray = getIntSortArray(intArray);
         setIntArray(newArray)
@@ -177,7 +178,7 @@ const CommonExamples=()=>{
             setPromis(item)
         }).catch((error) => {
             console.error(error);
-            setPromis(error)  // If rejected, this will run
+            setPromis(error)  // If rejected, this will run 
         }) 
     }
     const getSubjectObservable =()=>{
@@ -189,6 +190,24 @@ const CommonExamples=()=>{
         setSubjectObs('subject observable - 1');
     }
 
+    const fetchApiWithObservable =()=>{       
+        fetchUserDetailServiceObservable(1).subscribe((data)=>{
+            console.log('api data -- ',data)
+            setApiData(data)
+        }).catch((error) => {
+            console.error(error);
+            setApiData(error)  // If rejected, this will run 
+        })          
+    }
+    const fetchApiWithPromise =()=>{       
+        fetchUserDetailServicePromese(1).then((res)=>{
+            console.log('api data -- ',res.data)
+            setApiData(res.data)
+        }).catch((error) => {
+            console.error(error);
+            setApiData(error)  // If rejected, this will run 
+        })          
+    }
     return (<>
     <h2>Common JS Examples</h2>
     <div className="tab-div" >
@@ -244,6 +263,14 @@ const CommonExamples=()=>{
     <div className="tab-div">
         <div><b>Subject Observable values :</b> {subobserv}</div> 
         <button onClick={getSubjectObservable}>Get subject Observable</button>
+    </div>
+    <div className="tab-div">
+        <div><b>Fetch API Observable :</b> {JSON.stringify(apiData)}</div>
+         <button onClick={fetchApiWithObservable}>Fetch API Observable</button>
+    </div>
+    <div className="tab-div">
+        <div><b>Fetch API Promises :</b> {JSON.stringify(apiData)}</div>
+         <button onClick={fetchApiWithPromise}>Fetch API Promise</button>
     </div>
     </>)
 }

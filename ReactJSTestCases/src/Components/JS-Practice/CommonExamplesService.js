@@ -1,4 +1,5 @@
-import { Observable, Subject } from "rxjs";
+import axios from "axios";
+import { from, Observable, Subject } from "rxjs";
 const subjectObj = new Subject() 
 export const getIntSortArray=(arr)=>{
 return arr.sort((a,b)=>a-b)
@@ -28,10 +29,13 @@ export const getUniqeArray=(arr)=>{
 export const getRXJSObservable=()=>{
     const obsevable = new Observable((sub)=>{
         sub.next('Fist Emit val')
+        console.log('1-inside observsble')
         sub.next('Second Emit val')
         setTimeout(()=>{
+            console.log('2-inside observsble')
             sub.next('After 500 msec')
         },500)
+        console.log('3-inside observsble')
     })
     return obsevable;
 }
@@ -57,3 +61,13 @@ export const getSubjectObs=()=>{
 export const setSubjectObs=(val)=>{
     subjectObj.next(val)
 }
+
+export const fetchUserDetailServiceObservable =(userId) => {
+    const url = `https://jsonplaceholder.typicode.com/users/${userId}`;
+    return from(axios.get(url)); // Return an observable
+}; 
+
+export const fetchUserDetailServicePromese=(userId) => {
+    const url = `https://jsonplaceholder.typicode.com/users/${userId}`;
+    return axios.get(url); // Return an observable
+}; 
