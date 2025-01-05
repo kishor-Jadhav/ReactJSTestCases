@@ -90,6 +90,11 @@ const CommonExamples=()=>{
         d.address.pincode = '501' //change with D also change A
         str = `<div> ${str} First D= ${converToJSON(d)} </div> <div> Second A= ${converToJSON(a)} </div>`
 
+        const r = Object.assign({},a)
+        r.id = '3' //change with D not change A
+        r.address.pincode = '50123' //change with D also change A
+        str = `<div> ${str} First r= ${converToJSON(r)} </div> <div> Second A= ${converToJSON(a)} </div>`
+
         const e = JSON.parse(JSON.stringify(a))
         e.id = '4' //change with D not change A
         e.address.pincode = '801' //change with D not change A
@@ -108,6 +113,24 @@ const CommonExamples=()=>{
         const bb = [...arr].sort((a,b)=>a.productName.localeCompare(b.productName))
         arr.sort((a,b)=>a.productName.localeCompare(b.productName))
         return arr
+    }
+
+    const sortArrayObjectwithTwoField = ()=>{
+        const people = [
+            { name: "Alice", age: 30 },
+            { name: "Bob", age: 25 },
+            { name: "Alice", age: 25 },
+            { name: "Charlie", age: 35 }
+          ];
+
+          const peo = people.sort((a,b)=>{
+            if(a.name === b.name){
+                return a.age - b.age;
+            }
+            return a.name.localeCompare(b.name)
+          })
+
+          return peo;
     }
 
     const sortArrayObjectJsonNumber =()=>{
@@ -154,6 +177,10 @@ const CommonExamples=()=>{
         })
        
         return arr
+        /*map():
+        Creates a new array, leaving the original array unchanged (immutable operation).
+        forEach():
+        Doesn't create a new array and can modify the original array (mutable operation if the callback function modifies the elements). */
     }
 
     const SumOfObjectJson =()=>{
@@ -208,6 +235,48 @@ const CommonExamples=()=>{
             setApiData(error)  // If rejected, this will run 
         })          
     }
+
+    const uniqArrayWithoutSet=()=>{
+        const arr = [1,2,4,1,2,3];
+        const uniq = arr.filter((value,index,self)=> self.indexOf(value)===index);
+        return uniq;
+    }
+
+    const uniqArrayObject=()=>{
+        const array = [
+            { id: 1, name: 'John' },
+            { id: 2, name: 'Jane' },
+            { id: 1, name: 'John' },
+            { id: 2, name: 'Jane' },
+          ]
+        const uniq = array.filter((value,index,self)=> self.findIndex(v=> v.id === value.id)===index);
+        return uniq;
+    }
+
+    const findItemFromObjectJson =()=>{
+        let str="";
+        const arr =[{id:'1', productName:'Apple', price:100},
+        {id:'2', productName:'Orange', price:50},
+        {id:'3', productName:'Banana', price:20}]  
+        const itemarr = [2,3]       
+        const sorted = arr.filter((item)=> itemarr.includes(parseInt(item.id)))
+       
+        return sorted
+    }
+
+    const sumFromObjectJson =()=>{
+        let str="";
+        const arr =[{id:'1', productName:'Apple', price:100},
+        {id:'2', productName:'Orange', price:50},
+        {id:'3', productName:'Banana', price:20}]  
+        const itemarr = [2,3]       
+        const a = arr.filter(item=> itemarr.includes(parseInt(item.id)))
+
+        const c =a.reduce((a,b)=> a + parseInt(b.price),0)
+            
+        return c;
+    }
+
     return (<>
     <h2>Common JS Examples</h2>
     <div className="tab-div" >
@@ -222,9 +291,11 @@ const CommonExamples=()=>{
     </div>
     <div className="tab-div">
          <b>Unique Int Array :</b> {getUniqueIntArray().join(' ,')} <br></br>
-         <b>Unique Char Array :</b> {getUniqueCharArray().join(' ,')}        
+         <b>Unique Char Array :</b> {getUniqueCharArray().join(' ,')} <br></br>
+         <b>Unique Array without Set :</b> {uniqArrayWithoutSet().join(' ,')} <br></br>
+         <b>Unique Array Objet :</b> {JSON.stringify(uniqArrayObject())}        
     </div>
-    <div sclassName="tab-div">
+    <div className="tab-div">
          <b>Sprade Operator Integer :</b> {checkSpradeOperatorsInt().join(' ,')}         
     </div>
     <div className="tab-div">
@@ -237,14 +308,18 @@ const CommonExamples=()=>{
          <div dangerouslySetInnerHTML={{ __html: checkObjectSpradeOperatorsJson() }} />     
     </div>
      <div className="tab-div">
-         <b>Sort Array Object Json -ProductName :</b> {JSON.stringify(sortArrayObjectJsonString())}     
-         <b>Sort Array Object Json -Price :</b> {JSON.stringify(sortArrayObjectJsonNumber())}
+         <b>Sort Array Object Json -ProductName :</b> {JSON.stringify(sortArrayObjectJsonString())}  <br></br>   
+         <b>Sort Array Object Json -Price :</b> {JSON.stringify(sortArrayObjectJsonNumber())} <br></br>
+         <b>Sort Array Object Sort by age if names are the same :</b> {JSON.stringify(sortArrayObjectwithTwoField())} <br></br>
     </div>
     <div className="tab-div">
          <b>Filter Array Object Json :</b> {JSON.stringify(filterObjectJson())}          
     </div>
     <div className="tab-div">
          <b>MAP Array Object Json :</b> {JSON.stringify(mapObjectJson())}
+    </div>
+    <div className="tab-div">
+         <b>Find Items from Object Json :</b> {JSON.stringify(findItemFromObjectJson())}
     </div>
     <div className="tab-div">
          <b>ForEach Array Object Json :</b> {JSON.stringify(forEachObjectJson())}
@@ -272,6 +347,7 @@ const CommonExamples=()=>{
         <div><b>Fetch API Promises :</b> {JSON.stringify(apiData)}</div>
          <button onClick={fetchApiWithPromise}>Fetch API Promise</button>
     </div>
+    
     </>)
 }
 

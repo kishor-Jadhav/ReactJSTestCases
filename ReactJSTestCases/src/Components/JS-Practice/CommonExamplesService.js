@@ -71,3 +71,35 @@ export const fetchUserDetailServicePromese=(userId) => {
     const url = `https://jsonplaceholder.typicode.com/users/${userId}`;
     return axios.get(url); // Return an observable
 }; 
+
+export const exampleOnSubjectObserver=()=>{
+    let subjectobj = new Subject();
+
+subjectobj.subscribe(data => console.log('sub1:', data)); // First subscription
+subjectobj.next('data'); // Emitting the first value
+
+subjectobj.subscribe(data => console.log('sub2:', data)); // Second subscription
+subjectobj.next('more data'); // Emitting the second value
+
+//Output -
+/*
+sub1: data
+sub1: more data
+sub2: more data
+*/
+
+console.log('start');
+setTimeout(() => {
+  console.log('time');
+}, 0);
+console.log('end');
+
+//Output -
+/*
+start
+end
+time
+
+*/
+
+}
